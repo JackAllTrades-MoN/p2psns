@@ -1,0 +1,50 @@
+
+use std::io::{Write};
+
+struct User {
+    id: String,
+    name: String
+}
+
+struct Tweet {
+    user_id: String,
+    contents: String
+}
+
+impl Tweet {
+    fn print(&self) {
+        println!("{}", self.user_id);
+        println!("{}", self.contents);
+    }
+}
+
+fn show_timeline(tweets: &Vec<Tweet>) {
+    for tweet in tweets.iter() {
+        tweet.print();
+        println!("-----------------");
+    }
+}
+
+fn tweet(tweets: &mut Vec<Tweet>) {
+    print!("What's your tweet?> ");
+    std::io::stdout().flush().unwrap();
+    let mut word = String::new();
+    std::io::stdin().read_line(&mut word).ok();
+    tweets.push(Tweet { user_id: "test".to_string(), contents: word.to_string() });
+}
+
+fn main() {
+    let user = User {id: "test".to_string(), name: "JackAllTrades".to_string()};
+    let mut tweets = vec![];
+    loop {
+        print!("> ");
+        std::io::stdout().flush().unwrap();
+        let mut word = String::new();
+        std::io::stdin().read_line(&mut word).ok();
+        match &*word.trim() {
+            "tweet" => tweet(&mut tweets),
+            _ => (),
+        }
+        show_timeline(&tweets);
+    }
+}
